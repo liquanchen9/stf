@@ -33,6 +33,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     rm node-v*.tar.xz && \
     su stf-build -s /bin/bash -c '/usr/local/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js install' && \
     apt-get -y install libzmq3-dev libprotobuf-dev git graphicsmagick yasm && \
+    source /etc/lsb-release && \
+    echo "deb http://download.rethinkdb.com/apt $DISTRIB_CODENAME main" | tee /etc/apt/sources.list.d/rethinkdb.list && \
+    wget -qO- https://download.rethinkdb.com/apt/pubkey.gpg | apt-key add - && \
+    apt-get update && \
+    apt-get install rethinkdb && \
     apt-get clean && \
     rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
